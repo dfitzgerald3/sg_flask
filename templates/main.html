@@ -1,0 +1,19 @@
+{% extends "headers.html" %}
+{% block body %}
+ 
+<div>
+	<br>
+	<table class="table">
+	{% for i in sentiment %}
+		<tr>
+			<td> {{ i[0] }} </td>
+			<td> {{ i[1] }} </td>
+			<td> {{ i[2] }} </td>
+		</tr>
+	{% endfor %}
+	</table>
+
+</div>
+
+ 
+{% endblock %}
