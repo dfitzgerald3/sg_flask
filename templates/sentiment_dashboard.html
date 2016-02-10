@@ -1,0 +1,26 @@
+{% extends "headers.html" %}
+{% block body %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+<script type="text/javascript" src="{{ url_for('static', filename='js/sentiment_dashboard_charts.js')}}"></script>
+
+<div id="stringFilter_dashboard_div" style="border: 1px solid #ccc">
+	<div id="stringFilter_control_div" style="padding-left: 2em"></div>
+	<div id="stringFilter_chart_div"></div>
+</div>
+
+
+{% endblock %}
