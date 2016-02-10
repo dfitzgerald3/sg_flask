@@ -1,19 +1,20 @@
 {% extends "headers.html" %}
 {% block body %}
- 
-<div>
-	<br>
-	<table class="table">
-	{% for i in sentiment %}
-		<tr>
-			<td> {{ i[0] }} </td>
-			<td> {{ i[1] }} </td>
-			<td> {{ i[2] }} </td>
-		</tr>
-	{% endfor %}
-	</table>
 
+<br>
+<br>
+<br>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+<script type="text/javascript" src="{{ url_for('static', filename='js/sentiment_analysis_charts.js')}}"></script>
+
+
+
+<div id='dashboard_div'>
+<div id="line_div"></div>
+<div id="cs_div"></div>
+<div id="bar_div"></div>
+<div id="control_div"></div>
 </div>
 
- 
 {% endblock %}
