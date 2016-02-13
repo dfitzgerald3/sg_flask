@@ -2,20 +2,35 @@ google.charts.load('current', {packages: ['corechart', 'line', 'table', 'gauge',
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
+	//google.charts.load('current', {packages: ['corechart', 'line', 'table', 'gauge','controls']});
 	//Retrieve data from server in JSON format
+	
+	var url = window.location.href;
+	var parser = document.createElement('a');
+	parser.href = url;
+	var pathname = parser.pathname;	
+	
+	var func = "/get_sentiment_sym/" + pathname.slice(20, pathname.lenth);
+	
+	//var url = "/get_sentiment_sym/" + sym;
+	console.log(pathname)
+	
 	var jsonData = $.ajax({
-		url: "/get_sentiment",
+		url: func,
 		contentType:"application/json; charset=utf-8",
 		dataType: "json",
 		async: false
 		}).responseJSON;
 	
+	console.log(jsonData)
 	//Convert JSON data to useable arrays
 	var db_data = [];
 	for (var item in jsonData) {
 		var value = jsonData[item];
 		db_data.push(value);
-	}
+	};
+	
+	console.log(db_data)
 	
 	var year = db_data[0][0]
 	var month = db_data[0][1]
@@ -26,6 +41,8 @@ function drawChart() {
 	var low = db_data[0][6]
 	var sent = db_data[0][7]
 	var sent_volume = db_data[0][8]
+	
+	console.log(year)
 	
 	//Create DataTable 
 	var data = new google.visualization.DataTable();
