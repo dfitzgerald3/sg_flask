@@ -52,7 +52,7 @@ function drawChart() {
 	data.addColumn('number', 'Close');
 	data.addColumn('number', 'High');
 	data.addColumn('number', 'Sentiment');
-	data.addColumn('number', 'Sentiment Volumn');
+	data.addColumn('number', 'Sentiment Volume');
 	
 	for (var i = 0; i < year.length; ++i) {
 		var date = new Date(year[i], month[i], day[i]);
@@ -76,11 +76,17 @@ function drawChart() {
 				'chartOptions': {
 					'chartArea': {
 						'top': '0',
-						//'width': '80%',
-						//'height': '50%'
+						'left': 115,
+						'right': 115,
+						'width': '80%',
+						'height': '50%'
 						},
 					'hAxis': {
-						'baselineColor': 'none'
+						'baselineColor': 'none',
+						'title': 'Date',
+							'gridlines': {
+								//'count': 0
+							}
 						}
 					},
 				// Display a single series that shows the closing value of the stock.
@@ -100,12 +106,26 @@ function drawChart() {
 		'view': {'columns': [0, 5]},
 		'options': {
 			'width': '90%',
+			'legend': {
+				'position': 'none'
+			}, 
 			'hAxis': { 
-				textPosition: 'none' 
-				},
+				'textPosition': 'none',
+				'gridlines': {
+					'count': 0
+				}
+			},
+			'vAxis': {
+				'title': 'Sentiment',
+				'maxValue': 1.0,
+				'minValue': -1.0,
+				'gridlines': {
+					'count': 3
+				}
+			},
 			'chartArea': {
-				'top': '0',
-				'bottom': '0'
+				'top': '15',
+				'bottom': '5'
 			}
 		}
 	});
@@ -118,10 +138,24 @@ function drawChart() {
 		'view': {'columns': [0, 1, 2, 3, 4]},
 		'options': {
 			'width': '90%',
-			'hAxis': { textPosition: 'none' },
+			'legend': {
+				'position': 'none'
+			}, 
+			'hAxis': { 
+				'textPosition': 'none',
+				'gridlines': {
+					'count': 0
+				}
+			},
+			'vAxis': {
+				'title': 'Stock Price',
+				'gridlines': {
+					'count': 3
+				}
+			},
 			'chartArea': {
-				'top': 0,
-				'bottom': 0
+				'top': 15,
+				'bottom': 5
 			}
 		}
 	});
@@ -134,14 +168,29 @@ function drawChart() {
 		'view': {'columns': [0, 6]},
 		'options': {
 			'width': '90%',
-			'hAxis': { textPosition: 'none' },
+			'legend': {
+				'position': 'none'
+			}, 
+			'hAxis': { 
+				'textPosition': 'none',
+				'gridlines': {
+					'count': 0
+				}
+			},
+			'vAxis': {
+				'title': 'Sentiment Volumne',
+				'gridlines': {
+					'count': 3
+				}
+			},
 			'chartArea': {
-				'top': 0,
-				'bottom': 0
+				'top': 5,
+				'bottom': 5
 			}
 		}
 	});
 	
+		
 	dashboard.bind(control, [line_chart, cs_chart, bar_chart]);
 	dashboard.draw(data);
 }
