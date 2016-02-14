@@ -4,23 +4,39 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
 <script type="text/javascript" src="{{ url_for('static', filename='js/sentiment_dashboard_charts.js')}}"></script>
 
-<div id="stringFilter_dashboard_div" style="border: 1px solid #ccc">
-	<div id="stringFilter_control_div" style="padding-left: 2em"></div>
-	<div id="stringFilter_chart_div"></div>
+
+	
+
+<div class = "container" id="stringFilter_dashboard_div" style="border: 1px solid #ccc">
+	<div class = "row">
+		<div class = "col-sm-3 col-md-3 sidebar">
+			<ul class="nav nav-sidebar">
+				<li id="stringFilter_control_div"></li>
+				<br>
+				<li id="categoryFilter_dashboard_div"></li>
+				<br>
+				<li id="sentVolFilter_dashboard_div"></li>
+				<br>
+				<li id="sentFilter_dashboard_div"></li>
+				<br>
+				
+			</ul>
+		</div>
+			
+		<div class = "col-md-9" id="stringFilter_chart_div"></div>
+		
+	</div>
+	
+	
+				
+			
 </div>
+
+	
 
 
 {% endblock %}
