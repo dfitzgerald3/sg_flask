@@ -13,8 +13,7 @@ function drawChart() {
 	var func = "/get_sentiment_sym/" + pathname.slice(20, pathname.lenth);
 	
 	//var url = "/get_sentiment_sym/" + sym;
-	console.log(pathname)
-	
+		
 	var jsonData = $.ajax({
 		url: func,
 		contentType:"application/json; charset=utf-8",
@@ -22,7 +21,6 @@ function drawChart() {
 		async: false
 		}).responseJSON;
 	
-	console.log(jsonData)
 	//Convert JSON data to useable arrays
 	var db_data = [];
 	for (var item in jsonData) {
@@ -30,8 +28,7 @@ function drawChart() {
 		db_data.push(value);
 	};
 	
-	console.log(db_data)
-	
+		
 	var year = db_data[0][0]
 	var month = db_data[0][1]
 	var day = db_data[0][2]
@@ -42,8 +39,7 @@ function drawChart() {
 	var sent = db_data[0][7]
 	var sent_volume = db_data[0][8]
 	
-	console.log(year)
-	
+		
 	//Create DataTable 
 	var data = new google.visualization.DataTable();
 	data.addColumn('date', 'Date');
@@ -55,7 +51,7 @@ function drawChart() {
 	data.addColumn('number', 'Sentiment Volume');
 	
 	for (var i = 0; i < year.length; ++i) {
-		var date = new Date(year[i], month[i], day[i]);
+		var date = new Date(year[i], (month[i] - 1), day[i]);
 		data.addRow([date, low[i], open[i], close[i], high[i], sent[i], sent_volume[i]]);
 	};
 	
@@ -64,7 +60,7 @@ function drawChart() {
 	var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 	
 	//Create ControlWrapper
-	var control = new google.visualization.ControlWrapper({
+	control = new google.visualization.ControlWrapper({
 		'controlType': 'ChartRangeFilter',
 		'containerId': 'control_div',
 		'options': {
@@ -74,19 +70,15 @@ function drawChart() {
 			'ui': {
 				'chartType': 'LineChart',
 				'chartOptions': {
+					'colors': ['2D7187'],
 					'chartArea': {
 						'top': '0',
-						'left': 115,
-						'right': 115,
-						'width': '80%',
+						'width': '75%',
 						'height': '50%'
 						},
 					'hAxis': {
 						'baselineColor': 'none',
-						'title': 'Date',
-							'gridlines': {
-								//'count': 0
-							}
+						'title': 'Date'
 						}
 					},
 				// Display a single series that shows the closing value of the stock.
@@ -106,6 +98,7 @@ function drawChart() {
 		'view': {'columns': [0, 5]},
 		'options': {
 			'width': '90%',
+			'colors': ['2D7187'],
 			'legend': {
 				'position': 'none'
 			}, 
@@ -117,8 +110,8 @@ function drawChart() {
 			},
 			'vAxis': {
 				'title': 'Sentiment',
-				'maxValue': 1.0,
-				'minValue': -1.0,
+				'maxValue': 0.1,
+				'minValue': -0.1,
 				'gridlines': {
 					'count': 3
 				}
@@ -138,9 +131,19 @@ function drawChart() {
 		'view': {'columns': [0, 1, 2, 3, 4]},
 		'options': {
 			'width': '90%',
+			'colors': ['2D7187', '2D7187'],
 			'legend': {
 				'position': 'none'
 			}, 
+			'candlestick': {
+				'fallingColor': {
+					'stroke': '2D7187',
+				},
+				'risingColor': {
+					'stroke': '2D7187',
+					'fill': '2D7187'
+				}
+			},
 			'hAxis': { 
 				'textPosition': 'none',
 				'gridlines': {
@@ -149,6 +152,7 @@ function drawChart() {
 			},
 			'vAxis': {
 				'title': 'Stock Price',
+				'format': 'currency',
 				'gridlines': {
 					'count': 3
 				}
@@ -167,7 +171,7 @@ function drawChart() {
 		'containerId': 'bar_div',
 		'view': {'columns': [0, 6]},
 		'options': {
-			'width': '90%',
+			'colors': ['2D7187'],
 			'legend': {
 				'position': 'none'
 			}, 
@@ -184,13 +188,34 @@ function drawChart() {
 				}
 			},
 			'chartArea': {
-				'top': 5,
-				'bottom': 5
+				'top': 15,
+				'bottom': 5,
+				'width': '75%'
 			}
 		}
 	});
 	
 		
 	dashboard.bind(control, [line_chart, cs_chart, bar_chart]);
+	
 	dashboard.draw(data);
-}
+	
+};
+
+function changeRange(value) {
+			var min = new Date();				
+			min.setDate(min.getDate() - value);
+
+			var today = new Date();
+			console.log(min)
+			console.log(today)
+			
+			control.setState({range:{
+				start: min,
+				end: today
+				}
+			});
+			console.log(control.getState());
+			control.draw();
+		};
+
