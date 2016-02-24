@@ -1,28 +1,39 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 from mysqldb import connection
 import datetime
-import retrieve_sentiment as rs
+import json
+
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def homepage():
-    return render_template("main.html")
+    return render_template("homepage.html")
         
 @app.route('/sentiment_dashboard')
 def sentiment_dashboard():
     return render_template("sentiment_dashboard.html")
     
-@app.route('/test')
-def test():
-    return render_template("stringfilter.html")
+@app.route('/sentiment_analysis/<sym>')
+def sentiment_analysis(sym):
+    c, conn = connection()    
+    c.execute("SELECT * FROM stocks WHERE symbol = %s", (sym,))    
+    data = c.fetchall()
     
-
-@app.route('/get_sentiment', methods=['GET', 'POST'])
-def get_sentiment():
+    symbol = data[0][0]
+    name = data[0][1]
+    description = data[0][4]
+    
+    return render_template("sentiment_analysis.html", 
+                           symbol=symbol, 
+                           name=name,
+                           description=description)
+    
+@app.route('/get_sentiment_sym/<sym>', methods=['GET', 'POST'])
+def get_sentiment_sym(sym):
     c, conn = connection()
-    c.execute("SELECT * FROM daily WHERE symbol = 'xom'")
+    c.execute("SELECT * FROM daily WHERE symbol = %s", (sym,))
     data = c.fetchall()
     
     year = []
@@ -58,12 +69,13 @@ def get_sentiment():
                              stock_low, 
                              sent, 
                              sent_volume])
+#                                          
                              
-                             
+
 @app.route('/get_dashboard_sentiment', methods=['GET', 'POST'])
-def get_sentimen_sentimentt():
+def get_dashboard_sentiment():
     c, conn = connection()
-    c.execute("SELECT * FROM stocks")
+    c.execute("SELECT * FROM dashboard")
     
     data = c.fetchall()
     
@@ -74,27 +86,24 @@ def get_sentimen_sentimentt():
     sentiment = []
     sentiment_volume = []
     
-    for i in data:
-        try:
-            c.execute("SELECT sentiment, volume FROM hourly WHERE time = (SELECT MAX(time) FROM hourly) AND symbol = %s", (i[0], ))        
-            sent_data = c.fetchall()
-            sentiment.append(sent_data[0][0])
-            sentiment_volume.append(sent_data[0][1])
-            symbol.append(i[0])
-            name.append(i[1])
-            industry.append(i[2])
-            sector.append(i[3])        
-            
-        except Exception:
-            continue
-        
+    for i in data:          
+        sent_data = c.fetchall()
+        symbol.append(i[0])
+        name.append(i[1])
+        industry.append(i[2])
+        sector.append(i[3])
+        sentiment.append(i[4])
+        sentiment_volume.append(i[5])
+    
     return jsonify(result = [symbol,
                              name,
                              industry,
                              sector,
                              sentiment,
                              sentiment_volume])
-        
+                             
+                             
+
         
         
         
