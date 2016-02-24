@@ -43,7 +43,7 @@ function drawChart() {
 	
 	
 	//Create Google Charts Dashboard
-	var dashboard = new google.visualization.Dashboard(
+	dashboard = new google.visualization.Dashboard(
 		document.getElementById('stringFilter_dashboard_div'));
 	
 
@@ -54,6 +54,7 @@ function drawChart() {
 		'options': {
 			'filterColumnIndex': '1',
 			'ui': {
+				'label': false,
 				'labelStacking': 'vertical'
 			}
 		}
@@ -70,6 +71,7 @@ function drawChart() {
 				'allowtyping': false,
 				'allowMultiple': true,
 				'selectedValuesLayout': 'belowStacked',
+				'label': false,
 				'labelStacking': 'vertical',
 				'cssClass': 'dropdown'
 			}
@@ -92,7 +94,9 @@ function drawChart() {
 			'minValue': 1,
 			'maxValue': max_filter_vol,
 			'ui': {
-				'labelStacking': 'vertical'
+				'label': false,
+				'labelStacking': 'vertical',
+				'cssClass': 'sliderClass'
 			}
 		}
 	});
@@ -108,8 +112,10 @@ function drawChart() {
 			'minValue': -100.0,
 			'maxValue': 100.0,
 			'ui': {
+				'label': false,
 				'labelStacking': 'vertical',
-				'step': 1
+				'step': 1,
+				'cssClass': 'sliderClass'
 			}
 		}
 	});
