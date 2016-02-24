@@ -8,32 +8,68 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
 <script type="text/javascript" src="{{ url_for('static', filename='js/sentiment_dashboard_charts.js')}}"></script>
 
+<style>
+.sliderClass .google-visualization-controls-slider-horizontal {
+  width:125px;
+}
+</style>
 
-	
-
-<div class = "container" id="stringFilter_dashboard_div" style="border: 1px solid #ccc">
-	<div class = "row">
-		<div class = "col-sm-3 col-md-3 sidebar">
-			<ul class="nav nav-sidebar">
-				<li id="stringFilter_control_div"></li>
-				<br>
-				<li id="categoryFilter_dashboard_div"></li>
-				<br>
-				<li id="sentVolFilter_dashboard_div"></li>
-				<br>
-				<li id="sentFilter_dashboard_div"></li>
-				<br>
-				
-			</ul>
+<div class = "container">
+	<div id = "desription">
+		<h1 align="center"> Sentiment Dashboard </h1>
+		<div class="alert alert-warning alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<p>
+					<h3 align="center"> Use the controls below to search for individual securities 
+						or filter the table to find securities matching your desired criteria
+					</h3>
+				</p>
+				<p>
+					<h3 align="center"> Sort the columns of the table by clicking on the column header</h3>
+				</p>
 		</div>
+
+	<div id="stringFilter_dashboard_div" style="border: 1px solid #ccc">
+		<div class = "row-fluid">
+			<div class = "col-sm-6 col-lg-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Search Security Name</h3>
+					</div>
+					<div align="center" class="panel-body" id="stringFilter_control_div"></div>
+				</div>
+			</div>
 			
-		<div class = "col-md-9" id="stringFilter_chart_div"></div>
-		
+			<div class = "col-sm-6 col-lg-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Filter by Sector</h3>
+					</div>
+					<div align="center" class="panel-body" id="categoryFilter_dashboard_div"></div>
+				</div>
+			</div>
+			<div class = "col-sm-6 col-lg-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Filter by Sentiment Volume</h3>
+					</div>
+					<div align="center"  class="panel-body" id="sentVolFilter_dashboard_div"></div>
+				</div>
+			</div>
+			<div class = "col-sm-6 col-lg-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Filter by Sentiment</h3>
+					</div>
+					<div align="center" class="panel-body" id="sentFilter_dashboard_div"></div>
+				</div>
+			</div>
+		</div>
+		<div class = "row">			
+			<div class = "col-lg-12" id="stringFilter_chart_div"></div>		
+		</div>			
 	</div>
 	
-	
-				
-			
 </div>
 
 	

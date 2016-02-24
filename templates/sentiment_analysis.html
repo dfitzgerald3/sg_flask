@@ -8,11 +8,31 @@
 <br>
 <br>
 
-<div class = "container "id='dashboard_div'>
-	<div id="cs_div"></div>
-	<div id="line_div"></div>
-	<div id="bar_div"></div>
-	<div id="control_div"></div>
+<div class = "container">
+	<div id = "securityName">
+		<h1 align="center">{{ name }}</h1>
+	</div>
+	
+	<br>
+	
+	<div align = 'center'>
+		<div class="btn-group" role="group" aria-label="...">
+			<button type="button" class="btn btn-default" onclick="changeRange(7)">7 Days</button>
+			<button type="button" class="btn btn-default" onclick="changeRange(30)">1 Mo.</button>
+			<button type="button" class="btn btn-default" onclick="changeRange(60)">3 Mo.</button>
+			<button type="button" class="btn btn-default" onclick="changeRange(365)">1 Yr.</button>
+		</div>
+	</div>
+	
+	<div id='dashboard_div'>
+		<div id="cs_div"></div>
+		<div id="line_div"></div>
+		<div id="bar_div" style="height: 100"></div>
+		<div id="control_div"></div>
+	</div>
+
 </div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/resize_google_charts.js') }}"></script>
 
 {% endblock %}
