@@ -1,0 +1,40 @@
+{%  macro render_field(field) %}
+	<div class = "form-group">
+				
+		{% if field.type != "BooleanField" %}
+			{{ field.label(class_="col-sm-3 control-label") }}
+			<div class = "col-sm-8">
+				<input type = "text" class = "form-control" >
+				
+			{% if field.errors %}
+				<ul class = errors>
+				{% for error in field.erros %}
+					<li> {{ error }} </li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+			
+			</div>
+		
+		{% else %}
+			<div class="col-sm-offset-3 col-sm-8">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox"> {{ field.label }}
+					</label>
+					
+					{% if field.errors %}
+						<ul class = errors>
+						{% for error in field.erros %}
+							<li> {{ error }} </li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+
+	
+		
+	</div>
+{% endmacro %}
