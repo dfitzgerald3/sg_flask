@@ -1,15 +1,85 @@
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, flash, request, url_for, redirect, session, jsonify
+from wtforms import Form, BooleanField, TextField, PasswordField, validators
+from passlib.hash import sha256_crypt
+from MySQLdb import escape_string as thwart
 from mysqldb import connection
 import datetime
 import json
+import gc
 
 
 app = Flask(__name__)
 
 
+#Create Registration Form Class to be used during the registration process
+class RegistrationForm(Form):
+    username = TextField('Username', [validators.Length(min=4, max=20)])
+    email = TextField('Email Address', [validators.Length(min=6, max=50)])
+    password = PasswordField('New Password', [
+        validators.Required(),
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password')
+    accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice', [validators.Required()])
+
+
+#Render HOMEPAGE
 @app.route('/')
 def homepage():
     return render_template("homepage.html")
+    
+
+#Render ABOUT 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+    
+    
+#Render PRODUCTS
+@app.route('/products')
+def products():
+    return render_template("products.html")
+    
+
+#Render REGISTRATION
+@app.route('/registration')
+def registration():
+    try:
+        form = RegistrationForm(request.form)
+
+        if request.method == "POST" and form.validate():
+            username  = form.username.data
+            email = form.email.data
+            password = sha256_crypt.encrypt((str(form.password.data)))
+            c, conn = connection()
+
+            x = c.execute("SELECT * FROM users WHERE username = (%s)",
+                          (thwart(username)))
+
+            if int(x) > 0:
+                flash("That username is already taken, please choose another")
+                return render_template('register.html', form=form)
+
+            else:
+                c.execute("INSERT INTO users (username, password, email, tracking) VALUES (%s, %s, %s, %s)",
+                          (thwart(username), thwart(password), thwart(email), thwart("/introduction-to-python-programming/")))
+                
+                conn.commit()
+                flash("Thanks for registering!")
+                c.close()
+                conn.close()
+                gc.collect()
+
+                session['logged_in'] = True
+                session['username'] = username
+
+                return redirect(url_for('dashboard'))
+
+        return render_template("register.html", form=form)
+
+    except Exception as e:
+        return(str(e))
+
         
 @app.route('/sentiment_dashboard')
 def sentiment_dashboard():
