@@ -4,6 +4,23 @@
 
 <body>
 	<div class = "container">
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			
+				{% if status == "Fail" %}
+					<div class = "alert alert-danger" role = "alert">
+				{% else %}
+					<div class = "alert alert-success" role = "alert">
+				{% endif %}
+				
+				{% for message in messages %}
+					{{ message }}
+				{% endfor %}
+				</div>
+			{% endif %}
+		{% endwith %}
+	
+	
 		<div class ="panel panel-default">			
 			<div class = "panel-heading">
 				<h4>Register</h4>
