@@ -14,7 +14,7 @@ app = Flask(__name__)
 #Create Registration Form Class to be used during the registration process
 class RegistrationForm(Form):
     username = TextField('Username', [validators.Length(min=4, max=20)])
-    email = TextField('Email Address', [validators.Length(min=6, max=50)])
+    email = TextField('Email Address', [validators.Length(min=6, max=150)])
     password = PasswordField('New Password', [
         validators.Required(),
         validators.EqualTo('confirm', message='Passwords must match')
@@ -42,7 +42,7 @@ def products():
     
 
 #Render REGISTRATION
-@app.route('/registration')
+@app.route('/registration', methods=["GET", "POST"])
 def registration():
     try:
         form = RegistrationForm(request.form)
@@ -58,11 +58,17 @@ def registration():
 
             if int(x) > 0:
                 flash("That username is already taken, please choose another")
-                return render_template('register.html', form=form)
+                status = "Fail"
+                return render_template('register.html', form=form, status=status)
+                
+            elif str(form.password.data) != str(form.confirm.data):
+                flash("Passwords must match!")
+                status = "Fail"
+                return render_template('register.html', form=form, status=status)
 
             else:
-                c.execute("INSERT INTO users (username, password, email, tracking) VALUES (%s, %s, %s, %s)",
-                          (thwart(username), thwart(password), thwart(email), thwart("/introduction-to-python-programming/")))
+                c.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)",
+                          (thwart(username), thwart(password), thwart(email)))
                 
                 conn.commit()
                 flash("Thanks for registering!")
@@ -73,14 +79,50 @@ def registration():
                 session['logged_in'] = True
                 session['username'] = username
 
-                return redirect(url_for('dashboard'))
-
+                return redirect(url_for('sentiment_dashboard'))
+        
         return render_template("register.html", form=form)
 
     except Exception as e:
         return(str(e))
 
+
+#Render LOGIN
+@app.route('/login', methods = ["GET", "POST"])
+def login():
+    error = ''
+    
+    try:
+        if request.method == "POST":
+            c, conn = connection()
+            
+            c.execute("SELECT * FROM users WHERE username = (%s)",
+                             thwart(request.form['username']))
+            
+            data = c.fetchone()
+            
+            if data is None:
+                error = "Invalid credentials, try again."
+                
+            else:
+                if sha256_crypt.verify(request.form['password'], data[2]):
+                    session['logged_in'] = True
+                    session['username'] = request.form['username']
         
+                    flash("You are now logged in")
+                    return redirect(url_for("sentiment_dashboard"))
+    
+                else:
+                    error = "Invalid credentials, try again."
+    
+        gc.collect()
+    
+        return render_template("login.html", error=error)
+        
+    except Exception as e:
+        return str(e)
+
+    
 @app.route('/sentiment_dashboard')
 def sentiment_dashboard():
     return render_template("sentiment_dashboard.html")
