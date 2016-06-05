@@ -3,12 +3,24 @@
 
 
 <body>
-	<div class = "container">
+	<div class = "container" style = "padding-top: 20px">
 		{% if error %}
 			<div class = "alert alert-danger" role = "alert">
 				{{ error }}
 			</div>		
 		{% endif %}
+		
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			
+				<div class = "alert alert-danger" role = "alert">
+				
+				{% for message in messages %}
+					{{ message }}
+				{% endfor %}
+				</div>
+			{% endif %}
+		{% endwith %}
 	
 	<div class ="panel panel-default">			
 			<div class = "panel-heading">

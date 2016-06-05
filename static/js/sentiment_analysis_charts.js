@@ -41,7 +41,7 @@ function drawChart() {
 	
 		
 	//Create DataTable 
-	var data = new google.visualization.DataTable();
+	data = new google.visualization.DataTable();
 	data.addColumn('date', 'Date');
     data.addColumn('number', 'Low');
 	data.addColumn('number', 'Open');
@@ -132,6 +132,9 @@ function drawChart() {
 		'options': {
 			'width': '90%',
 			'colors': ['2D7187', '2D7187'],
+			'bar': {
+				'groupWidth': "25%"
+			},
 			'legend': {
 				'position': 'none'
 			}, 
@@ -172,6 +175,9 @@ function drawChart() {
 		'view': {'columns': [0, 6]},
 		'options': {
 			'colors': ['2D7187'],
+			'bar': {
+				'groupWidth': "25%"
+			},
 			'legend': {
 				'position': 'none'
 			}, 
@@ -203,19 +209,24 @@ function drawChart() {
 };
 
 function changeRange(value) {
-			var min = new Date();				
-			min.setDate(min.getDate() - value);
+	if (value == -1) {
+		min = data.getColumnRange(0).min;
+	} else {	
+		var min = new Date();				
+		min.setDate(min.getDate() - value);	
+	};
+	
+	var today = new Date();
+	
+	control.setState({range:{
+		start: min,
+		end: today
+		}
+	});
+	
+	control.draw();
+};
 
-			var today = new Date();
-			console.log(min)
-			console.log(today)
-			
-			control.setState({range:{
-				start: min,
-				end: today
-				}
-			});
-			console.log(control.getState());
-			control.draw();
-		};
+
+
 

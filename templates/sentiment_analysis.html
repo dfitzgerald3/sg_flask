@@ -4,23 +4,21 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
 <script type = "text/javascript" src="{{ url_for('static', filename='js/sentiment_analysis_charts.js')}}"></script>
 
-<br>
-<br>
-<br>
-
-<div class = "container">
+<div class = "container" style = "padding-top: 20px">
 	<div id = "securityName">
 		<h1 align="center">{{ name }}</h1>
 	</div>
 	
 	<br>
 	
-	<div align = 'center'>
+	<div style = "padding-left: 70px; padding-bottom: 20px">
+		<strong> Zoom: </strong>
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" onclick="changeRange(7)">7 Days</button>
 			<button type="button" class="btn btn-default" onclick="changeRange(30)">1 Mo.</button>
 			<button type="button" class="btn btn-default" onclick="changeRange(60)">3 Mo.</button>
 			<button type="button" class="btn btn-default" onclick="changeRange(365)">1 Yr.</button>
+			<button type="button" class="btn btn-default" onclick="changeRange(-1)">All</button>
 		</div>
 	</div>
 	
@@ -31,8 +29,11 @@
 		<div id="control_div"></div>
 	</div>
 
+	<div id="returnDashboard" style = "padding-top: 10px" align = "right">
+		<a href="/download_sentiment/{{ symbol }}"><button type="button" class="btn btn-warning" id = "download"><h5>Download Sentiment</h5></button></a>
+	</div>	
+
 </div>
 
-<script type="text/javascript" src="{{ url_for('static', filename='js/resize_google_charts.js') }}"></script>
 
 {% endblock %}

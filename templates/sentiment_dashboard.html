@@ -1,10 +1,6 @@
 {% extends "headers.html" %}
 {% block body %}
 
-<br>
-<br>
-<br>
-
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
 <script type="text/javascript" src="{{ url_for('static', filename='js/sentiment_dashboard_charts.js')}}"></script>
 
@@ -14,18 +10,18 @@
 }
 </style>
 
-<div class = "container">
+<div class = "container" style = "padding-top: 20px">
 	<div id = "desription">
 		<h1 align="center"> Sentiment Dashboard </h1>
 		<div class="alert alert-warning alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<p>
-					<h3 align="center"> Use the controls below to search for individual securities 
+					<h4 align="center"> Use the controls below to search for individual securities 
 						or filter the table to find securities matching your desired criteria
-					</h3>
+					</h4>
 				</p>
 				<p>
-					<h3 align="center"> Sort the columns of the table by clicking on the column header</h3>
+					<h4 align="center"> Sort the columns of the table by clicking on the column header</h4>
 				</p>
 		</div>
 
@@ -34,7 +30,7 @@
 			<div class = "col-sm-6 col-lg-3">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Search Security Name</h3>
+						<h3 class="panel-title" align = "center">Search Security Name</h3>
 					</div>
 					<div align="center" class="panel-body" id="stringFilter_control_div"></div>
 				</div>
@@ -43,7 +39,7 @@
 			<div class = "col-sm-6 col-lg-3">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Filter by Sector</h3>
+						<h3 class="panel-title" align = "center">Filter by Sector</h3>
 					</div>
 					<div align="center" class="panel-body" id="categoryFilter_dashboard_div"></div>
 				</div>
@@ -51,7 +47,7 @@
 			<div class = "col-sm-6 col-lg-3">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Filter by Sentiment Volume</h3>
+						<h3 class="panel-title" align = "center">Filter by Sentiment Volume</h3>
 					</div>
 					<div align="center"  class="panel-body" id="sentVolFilter_dashboard_div"></div>
 				</div>
@@ -59,7 +55,7 @@
 			<div class = "col-sm-6 col-lg-3">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Filter by Sentiment</h3>
+						<h3 class="panel-title" align = "center">Filter by Sentiment</h3>
 					</div>
 					<div align="center" class="panel-body" id="sentFilter_dashboard_div"></div>
 				</div>
@@ -70,6 +66,11 @@
 		</div>			
 	</div>
 	
+	
+	
+<div id="returnDashboard" style = "padding-top: 10px" align = "right">
+		<a href="/download_dashboard"><button type="button" class="btn btn-warning"><h5>Download Dashboard</h5></button></a>
+	</div>	
 </div>
 
 	
